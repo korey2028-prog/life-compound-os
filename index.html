@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="一个无账号、无登录的每日人生复利公开 MVP，用来记录 AI、运动营养、健身教学、阅读和恢复。">
+    <title>每日人生复利系统</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-labelledby="app-title">
+        <div class="brand-block">
+          <p class="eyebrow">Ray Life OS</p>
+          <h1 id="app-title">Think different.</h1>
+          <p class="subtitle">AI × 运动营养 × 健身教学 × 阅读沉淀。每天只问：今天有没有让明天的我更自由一点？</p>
+        </div>
+        <div class="jobs-card" aria-label="design note">
+          <span>For the ones building themselves</span>
+          <strong>每日人生复利系统</strong>
+          <small>Simple. Personal. Useful.</small>
+        </div>
+        <div class="date-card">
+          <span id="todayLabel">2026-04-29</span>
+          <strong id="scoreLabel">--</strong>
+          <small>今日状态分</small>
+        </div>
+      </section>
+
+      <section class="public-note" aria-label="public MVP note">
+        <div>
+          <strong>公开 MVP：无账号、无登录、无上传。</strong>
+          <p>你填写的训练、饮食、AI、阅读和复盘记录只保存在当前浏览器本地。换设备不会同步，清空浏览器数据也会消失。</p>
+        </div>
+        <div>
+          <strong>健康边界</strong>
+          <p>这里是运动营养与日常复盘工具，不做疾病诊断，不替代医生、注册营养师或线下教练判断。</p>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <form class="panel input-panel" id="dailyForm">
+          <div class="panel-heading">
+            <h2>今日操作台</h2>
+            <button class="ghost-button" type="button" id="resetButton">重置</button>
+          </div>
+
+          <div class="field-grid two">
+            <label>
+              日期
+              <input type="date" id="dateInput" name="date">
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" id="workDayInput" name="workDay" checked>
+              <span>今天是工作日</span>
+            </label>
+          </div>
+
+          <fieldset class="segmented-field">
+            <legend>今日模式</legend>
+            <label><input type="radio" name="dayMode" value="recovery"><span>恢复日</span></label>
+            <label><input type="radio" name="dayMode" value="steady" checked><span>稳态日</span></label>
+            <label><input type="radio" name="dayMode" value="push"><span>推进日</span></label>
+            <label><input type="radio" name="dayMode" value="sprint"><span>冲刺日</span></label>
+          </fieldset>
+
+          <div class="metric-section state">
+            <div class="section-title">
+              <span>30 秒状态登记</span>
+              <small>先看底盘</small>
+            </div>
+            <div class="field-grid three">
+              <label>
+                可用分钟
+                <input type="number" id="availableInput" name="availableMinutes" min="0" max="960" value="180">
+              </label>
+              <label>
+                精力
+                <input type="range" id="energyInput" name="energy" min="1" max="10" value="6">
+                <output id="energyOutput">6</output>
+              </label>
+              <label>
+                压力/焦虑
+                <input type="range" id="anxietyInput" name="anxiety" min="1" max="10" value="4">
+                <output id="anxietyOutput">4</output>
+              </label>
+            </div>
+            <div class="field-grid two">
+              <label>
+                肌肉酸痛
+                <input type="range" id="sorenessInput" name="soreness" min="1" max="10" value="4">
+                <output id="sorenessOutput">4</output>
+              </label>
+              <label>
+                饥饿/食欲
+                <input type="range" id="appetiteInput" name="appetite" min="1" max="10" value="5">
+                <output id="appetiteOutput">5</output>
+              </label>
+            </div>
+          </div>
+
+          <label>
+            今日主线
+            <input type="text" id="primaryDesireInput" name="primaryDesire" placeholder="今天最想推进的一件事">
+          </label>
+
+          <div class="metric-section actions">
+            <div class="section-title">
+              <span>今日主线动作</span>
+              <small>先写候选，再选 1-3 个</small>
+            </div>
+            <label>
+              AI 产出动作
+              <input type="text" id="outputActionInput" name="outputAction" placeholder="例如：把今天的系统改成可复用网页">
+            </label>
+            <label>
+              训练 / 营养动作
+              <input type="text" id="fitnessActionInput" name="fitnessAction" placeholder="例如：上肢训练 + 蔬菜 350g">
+            </label>
+            <label>
+              阅读 / 英文动作
+              <input type="text" id="readingActionInput" name="readingAction" placeholder="例如：英文阅读 20 分钟，留一张卡">
+            </label>
+            <label>
+              教学 / 工作沉淀
+              <input type="text" id="coachActionInput" name="coachAction" placeholder="例如：把一段上课讲法整理成模板">
+            </label>
+          </div>
+
+          <div class="metric-section ai">
+            <div class="section-title">
+              <span>AI 杠杆</span>
+              <small>Token 要换回资产</small>
+            </div>
+            <div class="field-grid three">
+              <label>
+                AI Tokens
+                <input type="number" id="tokensInput" name="aiTokens" min="0" step="500" value="6000">
+              </label>
+              <label>
+                AI 资产数
+                <input type="number" id="aiAssetsInput" name="aiAssets" min="0" max="20" value="1">
+              </label>
+              <label>
+                Prompt/SOP 数
+                <input type="number" id="promptAssetsInput" name="promptAssets" min="0" max="20" value="1">
+              </label>
+            </div>
+          </div>
+
+          <div class="metric-section health">
+            <div class="section-title">
+              <span>运动营养 / 健身</span>
+              <small>SNC 版本会继续长出来</small>
+            </div>
+            <div class="field-grid three">
+              <label>
+                睡眠小时
+                <input type="number" id="sleepInput" name="sleepHours" min="0" max="14" step="0.5" value="7">
+              </label>
+              <label>
+                训练分钟
+                <input type="number" id="trainingInput" name="trainingMinutes" min="0" max="240" value="45">
+              </label>
+              <label>
+                总热量 kcal
+                <input type="number" id="caloriesInput" name="calories" min="0" max="6000" step="50" value="2200">
+              </label>
+            </div>
+            <div class="field-grid three">
+              <label>
+                蔬菜 g
+                <input type="number" id="vegetablesInput" name="vegetables" min="0" max="2000" step="50" value="350">
+              </label>
+              <label>
+                水果 g
+                <input type="number" id="fruitInput" name="fruit" min="0" max="1500" step="50" value="350">
+              </label>
+              <label>
+                坚果 g
+                <input type="number" id="nutsInput" name="nuts" min="0" max="200" step="5" value="0">
+              </label>
+            </div>
+            <div class="field-grid two">
+              <label>
+                主观饮食感受
+                <input type="range" id="mealQualityInput" name="mealQuality" min="0" max="10" value="6">
+                <output id="mealQualityOutput">6</output>
+              </label>
+              <label class="toggle-row compact">
+                <input type="checkbox" id="proteinInput" name="proteinHit" checked>
+                <span>蛋白质底线完成</span>
+              </label>
+            </div>
+            <label class="toggle-row no-offset">
+              <input type="checkbox" id="fastingInput" name="fastingDay">
+              <span>今天是断食 / 低热量日</span>
+            </label>
+          </div>
+
+          <div class="metric-section work">
+            <div class="section-title">
+              <span>教练教学 / 工作沉淀</span>
+              <small>把上课变成资产</small>
+            </div>
+            <div class="field-grid three">
+              <label>
+                教学/工作小时
+                <input type="number" id="workHoursInput" name="workHours" min="0" max="16" step="0.5" value="6">
+              </label>
+              <label>
+                高质量专注
+                <input type="number" id="deepWorkInput" name="deepWorkHours" min="0" max="12" step="0.5" value="2">
+              </label>
+              <label>
+                日程自主感
+                <input type="range" id="controlInput" name="scheduleControl" min="0" max="10" value="6">
+                <output id="controlOutput">6</output>
+              </label>
+            </div>
+            <div class="field-grid three">
+              <label>
+                学员/客户跟进
+                <input type="number" id="clientsInput" name="clientsChecked" min="0" max="80" value="0">
+              </label>
+              <label>
+                方案更新
+                <input type="number" id="programsInput" name="programsUpdated" min="0" max="30" value="0">
+              </label>
+              <label class="toggle-row compact">
+                <input type="checkbox" id="coachTemplateInput" name="coachTemplate">
+                <span>沉淀教练模板</span>
+              </label>
+            </div>
+            <label>
+              课堂反馈 / 案例证据
+              <input type="text" id="coachAssetInput" name="coachAsset" placeholder="可填 Obsidian 链接或一句真实反馈">
+            </label>
+          </div>
+
+          <div class="metric-section learning">
+            <div class="section-title">
+              <span>阅读 / 英文</span>
+              <small>输入要变成卡片</small>
+            </div>
+            <div class="field-grid two">
+              <label>
+                阅读分钟
+                <input type="number" id="readingInput" name="readingMinutes" min="0" max="600" value="30">
+              </label>
+              <label>
+                英文分钟
+                <input type="number" id="englishInput" name="englishMinutes" min="0" max="600" value="20">
+              </label>
+            </div>
+          </div>
+
+          <div class="metric-section recovery">
+            <div class="section-title">
+              <span>娱乐 / 恢复</span>
+              <small>恢复后应该更清醒</small>
+            </div>
+            <div class="field-grid two">
+              <label>
+                恢复分钟
+                <input type="number" id="recoveryInput" name="recoveryMinutes" min="0" max="600" value="45">
+              </label>
+              <label>
+                同时想做的大事
+                <input type="number" id="desireCountInput" name="desireCount" min="0" max="20" value="2">
+              </label>
+            </div>
+          </div>
+
+          <label>
+            今日资产沉淀
+            <textarea id="assetInput" name="assetText" rows="3" placeholder="例如：一个营养规则、一条英文阅读卡、一版客户沟通 SOP、一段可复用代码"></textarea>
+          </label>
+
+          <div class="field-grid two">
+            <label>
+              手动补记 CU
+              <input type="number" id="manualCuInput" name="manualCu" min="0" max="20" value="0">
+            </label>
+            <label>
+              明日负担
+              <input type="number" id="debtInput" name="debtUnits" min="0" max="20" value="0">
+            </label>
+          </div>
+
+          <label>
+            明日唯一动作
+            <input type="text" id="tomorrowInput" name="tomorrowMove" placeholder="明天只做一个最小复利动作">
+          </label>
+
+          <div class="button-row">
+            <button class="primary-button" type="submit">保存今日</button>
+            <button class="secondary-button" type="button" id="copyMarkdownButton">复制 Markdown</button>
+          </div>
+        </form>
+
+        <section class="panel output-panel">
+          <div class="panel-heading">
+            <h2>今日判定</h2>
+            <span class="status-pill" id="gradeLabel">等待输入</span>
+          </div>
+
+          <div class="score-block">
+            <div class="score-ring" id="scoreRing" style="--score: 0">
+              <span id="scoreBig">--</span>
+            </div>
+            <div>
+              <p class="score-title" id="scoreTitle">先把今天写下来</p>
+              <p class="score-copy" id="scoreCopy">系统会把身体底盘、教练沉淀、阅读输入、AI 产出、恢复和自由度合成一个行动判断。</p>
+            </div>
+          </div>
+
+          <div class="quick-kpis">
+            <article>
+              <span>新增 CU</span>
+              <strong id="cuLabel">0</strong>
+            </article>
+            <article>
+              <span>明日负担</span>
+              <strong id="debtLabel">0</strong>
+            </article>
+            <article>
+              <span>今日模式</span>
+              <strong id="modeLabel">稳态日</strong>
+            </article>
+          </div>
+
+          <div class="today-actions">
+            <h3>今日主线动作</h3>
+            <ol id="todayActionsList"></ol>
+          </div>
+
+          <div class="bar-list" id="barList" aria-label="score breakdown"></div>
+
+          <div class="naval-lens">
+            <h3>复利镜头</h3>
+            <div class="lens-grid">
+              <article>
+                <span>资产/消耗</span>
+                <strong id="assetJudgement">--</strong>
+              </article>
+              <article>
+                <span>杠杆类型</span>
+                <strong id="leverageJudgement">--</strong>
+              </article>
+              <article>
+                <span>特定知识信号</span>
+                <strong id="specificJudgement">--</strong>
+              </article>
+              <article>
+                <span>时间自由</span>
+                <strong id="freedomJudgement">--</strong>
+              </article>
+            </div>
+          </div>
+
+          <div class="panel-split">
+            <div>
+              <h3>下一步</h3>
+              <ul class="action-list" id="actionList"></ul>
+            </div>
+            <div>
+              <h3>系统边界</h3>
+              <ul class="action-list calm" id="constraintList"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel prompt-panel">
+          <div class="panel-heading">
+            <h2>复盘 Prompt</h2>
+            <button class="ghost-button" type="button" id="copyPromptButton">复制</button>
+          </div>
+          <textarea id="promptOutput" rows="20" readonly></textarea>
+        </section>
+
+        <section class="panel knowledge-panel">
+          <div class="panel-heading">
+            <h2>方法来源</h2>
+            <button class="ghost-button" type="button" id="copyPathsButton">复制说明</button>
+          </div>
+          <div class="knowledge-list" id="knowledgeList"></div>
+        </section>
+
+        <section class="panel history-panel">
+          <div class="panel-heading">
+            <h2>最近记录</h2>
+            <button class="ghost-button" type="button" id="clearHistoryButton">清空本页记录</button>
+          </div>
+          <div class="history-list" id="historyList"></div>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
